@@ -91,7 +91,8 @@ function handleSubmit(e) {
                 style = {{width: 350}}
                 />
                 
-                <Button type="submit"variant="outlined" color="secondary">Submit</Button>                
+                <Button type="submit"variant="outlined" color="secondary">Submit</Button>
+                <Button type="reset" onClick={() => setForm(() => "")} variant="outlined" color="secondary">Reset</Button>           
             </form>
         </div>
   );
