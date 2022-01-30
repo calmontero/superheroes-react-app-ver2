@@ -7,7 +7,6 @@ App
        - HeroesForm (props)
        - HeroesSearch (props)
        - HeroesCard (props)
-         - HeroesProfile
 
 ### Hooks used
 - usestate
@@ -32,7 +31,8 @@ Users can see a list of superheroes.\
 Users can search for a superhero by name.\
 Users can mark a superhero as their favorite.\
 Users can add a new superhero.\
-Users can delete a superhero.
+Users can delete a superhero.\
+Users can sort the list of superheroes.
 
 
 # Getting Started with Create React App
