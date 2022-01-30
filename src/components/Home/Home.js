@@ -2,6 +2,12 @@ import React from 'react';
 import "./Home.css";
 
 function Home() {
+  const [age, setAge] = React.useState('');
+
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
+
     return (
       <div className="home-container">
         <h1 className="home-heading">Super Heroes Page</h1>

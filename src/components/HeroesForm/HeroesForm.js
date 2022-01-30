@@ -1,19 +1,43 @@
 import React, { useState } from "react";
 import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import { makeStyles } from "@material-ui/core/styles";
 
 const BASE_URL = 'https://json-server-pj-backend.herokuapp.com/heroes';
+/*
+const useStyles = makeStyles(theme => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2)
+  }
+}));*/
 
 function HeroesForm({ onAddHero }) {
   const[form, setForm] = useState({
     name: '',
     realname: '',
-    publisher: '',
-    alignment: '',
     image: ''
   });
 
-function handleSubmit(e) {
+  const [publisher, setPublisher] = useState('');
+  const [alignment, setAlignment] = useState('');
+
+  const handleChangePublisher = (e) => {
+    setPublisher(e.target.value);
+  };
+
+  const handleChangeAlignment = (e) => {
+    setAlignment(e.target.value);
+  };
+
+  function handleSubmit(e) {
     e.preventDefault();
     fetch(BASE_URL, {
       method: "POST",
@@ -23,14 +47,14 @@ function handleSubmit(e) {
       body: JSON.stringify({
         name: form.name,
         realname: form.realname,
-        publisher: form.publisher,
-        alignment: form.alignment,
+        publisher: publisher,
+        alignment: alignment,
         image: form.image,
         isFavorite: false,
       }),
     })
     .then((response) => response.json())
-    .then((newHero) => onAddHero(newHero));
+    .then((newHero) => onAddHero(newHero), setPublisher(""), setAlignment(""));
   }
 
   const updateField = e => {
@@ -62,24 +86,33 @@ function handleSubmit(e) {
                 style = {{width: 250}}
                 />
                 
-                <Input
-                type="text"
-                name="publisher"
-                placeholder="Enter a hero's publisher..."
-                className="Input-text"
-                value={form.publisher}
-                onChange={updateField}
-                style = {{width: 250}}
-                />
+                <FormControl variant="standard" sx={{ m: -2,  width: 150, marginLeft: 0, height: 100 }}>
+                  <InputLabel id="label">Publisher</InputLabel>
+                  <Select
+                    labelId="label"
+                    id="standard"
+                    value={publisher}
+                    onChange={handleChangePublisher}
+                    label="Publisher"
+                  >
+                    <MenuItem value="DC Comics">DC Comics</MenuItem>
+                    <MenuItem value="Marvel Comics">Marvel Comics</MenuItem>
+                  </Select>
+                </FormControl>
                 
-                <Input
-                type="text"
-                name="alignment"
-                placeholder="Enter a hero's alignment..."
-                className="Input-text"
-                value={form.alignment}
-                onChange={updateField}
-                />
+                <FormControl variant="standard" sx={{ m: -2,  width: 100, marginLeft: 2, marginRight: 0 }}>
+                  <InputLabel id="label">Alignment</InputLabel>
+                  <Select
+                    labelId="label"
+                    id="standard"
+                    value={alignment}
+                    onChange={handleChangeAlignment}
+                    label="Alignment"
+                  >
+                    <MenuItem value={"good"}>Good</MenuItem>
+                    <MenuItem value={"bad"}>Bad</MenuItem>
+                  </Select>
+                </FormControl>
                 
                 <Input
                 type="text"
@@ -90,7 +123,7 @@ function handleSubmit(e) {
                 onChange={updateField}
                 style = {{width: 350}}
                 />
-                
+                <br/>
                 <Button type="submit"variant="outlined" color="secondary">Submit</Button>
                 <Button type="reset" onClick={() => setForm(() => "")} variant="outlined" color="secondary">Reset</Button>           
             </form>
